@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ambéria Jóias — Em Breve</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --amber: #C8893A;
+    --amber-light: #E8B96A;
+    --sky-blue: #7BA7C2;
+    --cream: #F5EFE4;
+    --sand: #D4C4A8;
+    --warm-dark: #2A1F14;
+    --silver: #B8C4CC;
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: #0A0A12;
+    color: var(--cream);
+    position: relative;
+  }
+
+  /* Sky canvas */
+  .sky {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      #0d1a2e 0%,
+      #1a2d4a 15%,
+      #2d4a6e 28%,
+      #5a7fa0 40%,
+      #8aabca 50%,
+      #c4956a 62%,
+      #d4783a 72%,
+      #b85520 82%,
+      #7a3010 92%,
+      #2a1005 100%
+    );
+    z-index: 0;
+  }
+
+  /* Animated clouds */
+  .clouds {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .cloud {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0;
+    animation: cloudDrift linear infinite;
+  }
+
+  .cloud-1 {
+    width: 600px; height: 200px;
+    background: radial-gradient(ellipse, rgba(232, 185, 106, 0.4) 0%, rgba(200,137,58,0.15) 60%, transparent 100%);
+    top: 35%; left: -20%;
+    animation-duration: 25s;
+    animation-delay: 0s;
+  }
+  .cloud-2 {
+    width: 400px; height: 150px;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.25) 0%, rgba(200,160,100,0.1) 60%, transparent 100%);
+    top: 25%; left: -10%;
+    animation-duration: 35s;
+    animation-delay: -12s;
+  }
+  .cloud-3 {
+    width: 500px; height: 180px;
+    background: radial-gradient(ellipse, rgba(123,167,194,0.35) 0%, rgba(90,127,160,0.1) 60%, transparent 100%);
+    top: 18%; left: -15%;
+    animation-duration: 40s;
+    animation-delay: -20s;
+  }
+  .cloud-4 {
+    width: 700px; height: 220px;
+    background: radial-gradient(ellipse, rgba(212,120,58,0.3) 0%, rgba(184,85,32,0.1) 60%, transparent 100%);
+    top: 50%; left: -10%;
+    animation-duration: 30s;
+    animation-delay: -8s;
+  }
+
+  @keyframes cloudDrift {
+    0% { transform: translateX(0) translateY(0); opacity: 0; }
+    8% { opacity: 1; }
+    90% { opacity: 0.8; }
+    100% { transform: translateX(120vw) translateY(-20px); opacity: 0; }
+  }
+
+  /* Stars */
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+
+  /* Horizon glow */
+  .horizon-glow {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 45%;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, 
+      rgba(200,100,30,0.6) 0%, 
+      rgba(180,70,20,0.3) 30%, 
+      transparent 70%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Sun */
+  .sun {
+    position: fixed;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff8e0 0%, #ffd060 30%, #ff8c20 70%, transparent 100%);
+    bottom: 28%;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 60px 30px rgba(255,160,50,0.4), 0 0 120px 60px rgba(255,100,20,0.2);
+    z-index: 2;
+    animation: sunPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes sunPulse {
+    0%, 100% { box-shadow: 0 0 60px 30px rgba(255,160,50,0.4), 0 0 120px 60px rgba(255,100,20,0.2); }
+    50% { box-shadow: 0 0 80px 40px rgba(255,180,70,0.5), 0 0 160px 80px rgba(255,120,30,0.25); }
+  }
+
+  /* Sea reflection */
+  .sea {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 28%;
+    background: linear-gradient(
+      180deg,
+      rgba(80,50,20,0.5) 0%,
+      rgba(40,20,5,0.8) 40%,
+      rgba(10,8,5,0.95) 100%
+    );
+    z-index: 3;
+    overflow: hidden;
+  }
+
+  .sea::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -50%;
+    width: 200%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,180,80,0.8), rgba(255,200,100,1), rgba(255,180,80,0.8), transparent);
+    animation: seaShimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes seaShimmer {
+    0%, 100% { opacity: 0.6; transform: scaleX(0.9); }
+    50% { opacity: 1; transform: scaleX(1.05); }
+  }
+
+  /* Main content */
+  .content {
+    position: relative;
+    z-index: 10;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    gap: 0;
+  }
+
+  .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--silver);
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.5s;
+    margin-bottom: 1.5rem;
+  }
+
+  .logo-area {
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 0.8s;
+    margin-bottom: 1.5rem;
+  }
+
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3.5rem, 12vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    background: linear-gradient(135deg, 
+      #fff5d0 0%, 
+      var(--amber-light) 25%, 
+      var(--amber) 45%, 
+      var(--sky-blue) 65%, 
+      #d4eaf8 85%,
+      #fff 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(200,137,58,0.4));
+  }
+
+  .brand-sub {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: clamp(0.55rem, 1.8vw, 0.7rem);
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-top: 0.6rem;
+  }
+
+  .divider {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(180deg, transparent, var(--amber), transparent);
+    margin: 1rem auto;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.2s;
+  }
+
+  .tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(0.9rem, 2.5vw, 1.25rem);
+    color: rgba(245,239,228,0.85);
+    max-width: 420px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.4s;
+    margin-bottom: 0.5rem;
+  }
+
+  .coming-soon-wrapper {
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.8s;
+    margin-top: 1.8rem;
+  }
+
+  .coming-soon-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 2rem;
+    border: 1px solid rgba(200,137,58,0.4);
+    border-radius: 100px;
+    background: rgba(200,137,58,0.08);
+    backdrop-filter: blur(10px);
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .coming-soon-badge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(200,137,58,0.1), transparent);
+    transform: translateX(-100%);
+    animation: badgeSheen 3s ease-in-out infinite 2s;
+  }
+
+  @keyframes badgeSheen {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .badge-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--amber);
+    animation: dotPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.6); }
+  }
+
+  .instagram-link {
+    margin-top: 1.4rem;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 2.1s;
+  }
+
+  .instagram-link a {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: rgba(245,239,228,0.6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .instagram-link a:hover { color: var(--amber-light); }
+
+  .instagram-link a::before {
+    content: '';
+    display: inline-block;
+    width: 14px; height: 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B8C4CC' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='5' ry='5'/%3E%3Cpath d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z'/%3E%3Cline x1='17.5' y1='6.5' x2='17.51' y2='6.5'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.7;
+  }
+
+  /* Bottom flourish */
+  .bottom-flourish {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 2.5s;
+  }
+
+  .sparkle {
+    display: inline-flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .sparkle-item {
+    width: 6px; height: 6px;
+    position: relative;
+  }
+
+  .sparkle-item::before, .sparkle-item::after {
+    content: '';
+    position: absolute;
+    background: var(--amber-light);
+    border-radius: 1px;
+  }
+  .sparkle-item::before { width: 100%; height: 1px; top: 50%; transform: translateY(-50%); }
+  .sparkle-item::after { width: 1px; height: 100%; left: 50%; transform: translateX(-50%); }
+
+  .sparkle-item:nth-child(2) { width: 8px; height: 8px; }
+  .sparkle-item:nth-child(2)::before, .sparkle-item:nth-child(2)::after { background: white; }
+
+  .sparkle-line {
+    width: 50px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200,137,58,0.5), transparent);
+  }
+
+  /* Fade/slide up animation */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Grain overlay */
+  .grain {
+    position: fixed;
+    inset: -50%;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    animation: grainShift 0.5s steps(2) infinite;
+  }
+
+  @keyframes grainShift {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(-2%,1%); }
+    50% { transform: translate(1%,-1%); }
+    75% { transform: translate(-1%,2%); }
+    100% { transform: translate(2%,-2%); }
+  }
+</style>
+</head>
+<body>
+
+<div class="sky"></div>
+
+<div class="clouds">
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+  <div class="cloud cloud-4"></div>
+</div>
+
+<div class="stars" id="stars"></div>
+
+<div class="sun"></div>
+<div class="horizon-glow"></div>
+<div class="sea"></div>
+<div class="grain"></div>
+
+<div class="content">
+  <p class="eyebrow">Uma nova luz está chegando</p>
+
+  <div class="logo-area">
+    <h1 class="brand-name">Ambéria</h1>
+    <p class="brand-sub">Jóias</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <p class="tagline">Nascida do encontro entre a luz e a beleza.<br>Cada peça, um instante eterno.</p>
+
+  <div class="coming-soon-wrapper">
+    <div class="coming-soon-badge">
+      <span class="badge-dot"></span>
+      Em breve
+      <span class="badge-dot"></span>
+    </div>
+  </div>
+
+  <div class="instagram-link">
+    <a href="https://instagram.com/amberiajoias" target="_blank">@amberiajoias</a>
+  </div>
+</div>
+
+<div class="bottom-flourish">
+  <div class="sparkle">
+    <div class="sparkle-line"></div>
+    <div class="sparkle-item"></div>
+    <div class="sparkle-item"></div>
+    <div class="sparkle-item"></div>
+    <div class="sparkle-line"></div>
+  </div>
+</div>
+
+<script>
+  // Generate stars — more in upper sky area
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    const size = Math.random() * 2.5 + 0.5;
+    const top = Math.random() * 45; // only upper half of sky
+    const left = Math.random() * 100;
+    const delay = Math.random() * 5;
+    const duration = 2 + Math.random() * 4;
+    star.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      top: ${top}%;
+      left: ${left}%;
+      animation-duration: ${duration}s;
+      animation-delay: ${delay}s;
+      opacity: ${Math.random() * 0.4};
+    `;
+    starsContainer.appendChild(star);
+  }
+</script>
+</body>
+</html>
